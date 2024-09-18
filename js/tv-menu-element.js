@@ -1,3 +1,4 @@
+alert("alert in tv-menu-element.js");
 // constants
 const MENU_ELEMENT = 4;
 const MENU_TYPE = {
