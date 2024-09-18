@@ -58,6 +58,7 @@ function keyHandler(e)
 			callbackRCDownArrow();
 			break;  
 		case keyCode.RC_LEFT_ARROW:
+			alert("clicked left arrow");
 			callbackRCLeftArrow();
 			break;
 		case keyCode.RC_RIGHT_ARROW:
@@ -137,6 +138,7 @@ function callbackRCDownArrow()
 }
 function callbackRCLeftArrow()
 {
+	alert("inside callbakc ");
 }
 function callbackRCRightArrow()
 {
