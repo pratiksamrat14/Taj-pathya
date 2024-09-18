@@ -6,7 +6,6 @@ function keyHandler(e)
     var rtn = eventPrepare(e, false, '');
     
     var pressedKey = e.code;
-   /* alert("pressedKey :" + pressedKey + ", " + e.code); */
    
     switch (pressedKey)
     {
