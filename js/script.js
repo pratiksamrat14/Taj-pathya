@@ -1,0 +1,1 @@
+alert('normal script file');
