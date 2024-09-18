@@ -17,6 +17,7 @@ let currentMenuItemIndex;
 
 // on load web page
 $(document).ready(function () {
+  alert('In ready');
   menuElement = $(`[element_type = '${MENU_ELEMENT}']`);
   if (menuElement) {
     menuType = menuElement.attr("menu_type");
@@ -96,7 +97,9 @@ function goToPage() {
 
 // EVENTS
 function callbackRCLeftArrow() {
+  alert('left arrow click')
   if (menuItemList.length > 0) {
+
     if (currentMenuItemIndex !== -1) {
       resetActiveMenuByType(menuItemList[currentMenuItemIndex]);
     }
@@ -110,6 +113,7 @@ function callbackRCLeftArrow() {
 
 function callbackRCRightArrow() {
   if (menuItemList.length > 0) {
+    alert('inside right arrow');
     if (currentMenuItemIndex !== -1) {
       resetActiveMenuByType(menuItemList[currentMenuItemIndex]);
     }
