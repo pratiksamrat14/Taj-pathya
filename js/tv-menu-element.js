@@ -1,4 +1,5 @@
  // constants
+ alert("in tv-menu-element");
 var MENU_ELEMENT = 4;
 var MENU_TYPE = {
   VERTICAL_SQUARE_IMAGE_MENU: "1",
@@ -17,6 +18,7 @@ var currentMenuItemIndex;
 
 // on load web page
 $(document).ready(function () {
+  alert('menu ready state !')
   menuElement = $("[element_type='" + MENU_ELEMENT + "']");
 
   if (menuElement.length) {
