@@ -1,5 +1,4 @@
- // constants
- alert("in tv-menu-element");
+// constants
 var MENU_ELEMENT = 4;
 var MENU_TYPE = {
   VERTICAL_SQUARE_IMAGE_MENU: "1",
@@ -18,7 +17,8 @@ var currentMenuItemIndex;
 
 // on load web page
 $(document).ready(function () {
-  alert('menu ready state !')
+  // Call the function to detect platform and browser
+  detectPlatformAndBrowser();
   menuElement = $("[element_type='" + MENU_ELEMENT + "']");
 
   if (menuElement.length) {
@@ -46,6 +46,57 @@ $(document).ready(function () {
     }
   }
 });
+
+function detectPlatformAndBrowser() {
+  const userAgent = navigator.userAgent.toLowerCase();
+  let platform = "Unknown Platform";
+  let browserInfo = "Unknown Browser";
+
+  // Detect TV platforms
+  if (userAgent.includes("android")) {
+    platform = "Android TV";
+  } else if (userAgent.includes("amino")) {
+    platform = "Amino TV";
+  } else if (userAgent.includes("infomir")) {
+    platform = "Infomir TV";
+  } else if (userAgent.includes("samsung")) {
+    platform = "Samsung Smart TV";
+  } else if (userAgent.includes("sony")) {
+    platform = "Sony Smart TV";
+  } else if (
+    userAgent.includes("windows") ||
+    userAgent.includes("macintosh") ||
+    userAgent.includes("linux")
+  ) {
+    platform = "PC Browser";
+  }
+
+  // Detect browser and version
+  if (userAgent.includes("chrome") && !userAgent.includes("edg")) {
+    const match = userAgent.match(/chrome\/(\d+)/);
+    browserInfo = match ? `Chrome version ${match[1]}` : "Chrome";
+  } else if (userAgent.includes("firefox")) {
+    const match = userAgent.match(/firefox\/(\d+)/);
+    browserInfo = match ? `Firefox version ${match[1]}` : "Firefox";
+  } else if (userAgent.includes("safari") && !userAgent.includes("chrome")) {
+    const match = userAgent.match(/version\/(\d+)/);
+    browserInfo = match ? `Safari version ${match[1]}` : "Safari";
+  } else if (userAgent.includes("opera") || userAgent.includes("opr")) {
+    const match = userAgent.match(/(opera|opr)\/(\d+)/);
+    browserInfo = match ? `Opera version ${match[2]}` : "Opera";
+  } else if (userAgent.includes("msie") || userAgent.includes("trident")) {
+    const match = userAgent.match(/(msie|rv:)(\d+)/);
+    browserInfo = match
+      ? `Internet Explorer version ${match[2]}`
+      : "Internet Explorer";
+  } else if (userAgent.includes("edg")) {
+    const match = userAgent.match(/edg\/(\d+)/);
+    browserInfo = match ? `Edge version ${match[1]}` : "Edge";
+  }
+
+  // Output platform and browser information
+  alert(`Platform: ${platform}\nBrowser: ${browserInfo}`);
+}
 
 // helpers
 function setActiveMenuByType(element) {
