@@ -58,9 +58,6 @@ function detectPlatformAndBrowser() {
     browserInfo = edgeMatch ? "" + edgeMatch[1] : "";
   }
 
-  // Output platform and browser information
-  alert("Platform: " + platform + "\nBrowser: " + browserInfo);
-  
   var keyCode =
     platform !== "" ? "js/" + platform + "/key_code.js" : "js/key_code.js";
 

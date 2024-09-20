@@ -14,11 +14,11 @@ var activeMenuColor;
 var menuColor;
 var menuItemList = [];
 var currentMenuItemIndex;
+var showMenuTimer = null;
 
 // on load web page
 $(document).ready(function () {
   menuElement = $("[element_type='" + MENU_ELEMENT + "']");
-
   if (menuElement.length) {
     menuType = menuElement.attr("menu_type");
     activeMenuColor = menuElement.attr("active_menu_color");
@@ -42,6 +42,7 @@ $(document).ready(function () {
     if (selectedItem) {
       setActiveMenuByType(selectedItem);
     }
+    startMenuHideTimer();
   }
 });
 
@@ -93,9 +94,30 @@ function goToPage() {
   }
 }
 
+// function startMenuHideTimer() {
+//   menuElement.css('display', 'flex');
+//   showMenuTimer = setTimeout(function(){
+//      menuElement.css('display', 'none');
+//   }, 7000)
+// }
+
+function startMenuHideTimer() {
+  menuElement.fadeIn('fast'); 
+
+  showMenuTimer = setTimeout(function(){
+     menuElement.fadeOut('slow');  
+  }, 7000);
+}
+
+function resetMenuHideTimer(){
+  clearTimeout(showMenuTimer);
+  startMenuHideTimer();
+}
 // EVENTS
 function callbackRCLeftArrow() {
   if (menuItemList.length > 0) {
+    resetMenuHideTimer();
+
     if (currentMenuItemIndex !== -1) {
       resetActiveMenuByType(menuItemList[currentMenuItemIndex]);
     }
@@ -109,6 +131,8 @@ function callbackRCLeftArrow() {
 
 function callbackRCRightArrow() {
   if (menuItemList.length > 0) {
+    resetMenuHideTimer();
+
     if (currentMenuItemIndex !== -1) {
       resetActiveMenuByType(menuItemList[currentMenuItemIndex]);
     }
