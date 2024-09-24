@@ -352,7 +352,9 @@ function showVolBar()
 		document.getElementById('soundBarParentDiv').style.display="block";
 		document.getElementById('soundVlBar').style.height= currentVol + "%";
 		document.getElementById('vlBarCountDiv').innerHTML = currentVol;
+		//alert("display block");
 		pageSBarInterval = window.setTimeout(function(){
+			//alert("going to display none");
 			document.getElementById('soundBarParentDiv').style.display="none";
 			pageSBarInterval = "undefined";
 		},5000);
