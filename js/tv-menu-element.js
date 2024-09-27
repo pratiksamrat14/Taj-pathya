@@ -6,6 +6,10 @@ var MENU_TYPE = {
   HORIZONTAL_ROUNDED_CORNER_CIRCULAR_IMAGES_MENU: "3",
   VERTICAL_ROUNDED_CORNER_CIRCULAR_IMAGES_MENU: "4",
 };
+var VERTICAL_MENU_LIST = [
+  MENU_TYPE.VERTICAL_ROUNDED_CORNER_CIRCULAR_IMAGES_MENU,
+  MENU_TYPE.VERTICAL_SQUARE_IMAGE_MENU,
+];
 
 // variables
 var menuElement;
@@ -18,6 +22,7 @@ var showMenuTimer = null;
 var pageHistory = JSON.parse(sessionStorage.getItem("pageHistory")) || [];
 var carouselSize = 0;
 var carouselWrapper;
+var isVerticalMenu = false;
 
 // on load web page
 $(document).ready(function () {
@@ -27,7 +32,8 @@ $(document).ready(function () {
     activeMenuColor = menuElement.attr("active_menu_color");
     menuColor = menuElement.attr("menu_color");
     carouselSize = parseInt(menuElement.attr("carousal_step"), 10);
-  }
+    isVerticalMenu = VERTICAL_MENU_LIST.indexOf(menuType) !== -1;
+  } 
 
   if (carouselSize === 0) {
     menuItemList = menuElement.length ? menuElement.children().toArray() : [];
@@ -232,7 +238,7 @@ function carousalRightArrow() {
 
 // EVENTS
 function callbackRCLeftArrow() {
-  if (menuItemList.length > 0) {
+  if (menuItemList.length > 0 && !isVerticalMenu) {
     // show menu and reset menu hide timer
     resetMenuHideTimer();
 
@@ -259,7 +265,7 @@ function callbackRCLeftArrow() {
 }
 
 function callbackRCRightArrow() {
-  if (menuItemList.length > 0) {
+  if (menuItemList.length > 0 && !isVerticalMenu) {
     // show menu and reset menu hide timer
     resetMenuHideTimer();
 
@@ -297,5 +303,58 @@ function callbackRCBack() {
     sessionStorage.setItem("pageHistory", JSON.stringify(pageHistory));
     var previousPage = pageHistory[pageHistory.length - 1];
     window.location.href = previousPage;
+  }
+}
+
+function callbackRCUpArrow() {
+  if (menuItemList.length > 0 && isVerticalMenu) {
+    // show menu and reset menu hide timer
+    resetMenuHideTimer();
+
+    // scroll to hidden items
+    if (
+      carouselSize !== 0 &&
+      (menuItemList.length - currentMenuItemIndex) % carouselSize === 0
+    ) {
+      scrollMenuLeftORTop();
+    }
+
+    carousalRightArrow();
+
+    if (currentMenuItemIndex !== -1) {
+      resetActiveMenuByType(menuItemList[currentMenuItemIndex]);
+    }
+
+    currentMenuItemIndex =
+      currentMenuItemIndex <= 0 ? 0 : currentMenuItemIndex - 1;
+
+    setActiveMenuByType(menuItemList[currentMenuItemIndex]);
+    carousalLeftArrow();
+  }
+}
+
+function callbackRCDownArrow() {
+  if (menuItemList.length > 0 && isVerticalMenu) {
+    // show menu and reset menu hide timer
+    resetMenuHideTimer();
+
+    // scroll to hidden items
+    if (carouselSize !== 0 && (currentMenuItemIndex + 1) % carouselSize === 0) {
+      scrollMenuRightORBottom();
+    }
+
+    carousalLeftArrow();
+
+    if (currentMenuItemIndex !== -1) {
+      resetActiveMenuByType(menuItemList[currentMenuItemIndex]);
+    }
+
+    currentMenuItemIndex =
+      currentMenuItemIndex + 1 >= menuItemList.length
+        ? currentMenuItemIndex
+        : currentMenuItemIndex + 1;
+
+    setActiveMenuByType(menuItemList[currentMenuItemIndex]);
+    carousalRightArrow();
   }
 }
